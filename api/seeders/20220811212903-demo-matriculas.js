@@ -3,7 +3,7 @@
 module.exports = {
 	async up(queryInterface, Sequelize) {
 		await queryInterface.bulkInsert(
-			'Niveis',
+			'Matriculas',
 			[
 				{
 					status: 'confirmado',
@@ -32,6 +32,6 @@ module.exports = {
 	},
 
 	async down(queryInterface, Sequelize) {
-		await queryInterface.bulkDelete('Niveis', null, {});
+		await queryInterface.bulkDelete('Matriculas', null, {});
 	},
 };
