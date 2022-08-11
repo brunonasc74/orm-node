@@ -1,0 +1,8 @@
+import resolve from 'path';
+
+export default {
+	config: resolve('./api/config', 'config.json'),
+	'models-path': resolve('./api/models'),
+	'seeders-path': resolve('./api/seeders'),
+	'migrations-path': resolve('./api/migrations'),
+};
