@@ -50,6 +50,62 @@ class PessoaController {
 			res.status(500).send(err.message);
 		}
 	}
+
+	// Matrícula
+	static async pegaUmaMatricula(req, res) {
+		const { estudanteId, matriculaId } = req.params;
+		try {
+			const umaMatricula = await database.Matriculas.findOne({
+				where: {
+					id: +matriculaId,
+					estudante_id: +estudanteId,
+				},
+			});
+			return res.status(200).send(umaMatricula);
+		} catch (err) {
+			res.status(500).send(err.message);
+		}
+	}
+
+	static async criaMatricula(req, res) {
+		const { id } = req.params;
+		try {
+			const novaMatricula = { ...req.body, estudante_id: +id };
+			await database.Matriculas.create(novaMatricula);
+			return res.status(201).send('Pessoa matriculada com sucesso');
+		} catch (err) {
+			res.status(500).send(err.message);
+		}
+	}
+
+	static async editaMatricula(req, res) {
+		const { estudanteId, matriculaId } = req.params;
+		const novasInfos = req.body;
+		try {
+			await database.Matriculas.update(novasInfos, {
+				where: {
+					id: +matriculaId,
+					estudante_id: estudanteId,
+				},
+			});
+			const matriculaAtualizada = await database.Matriculas.findOne({
+				where: { id: +matriculaId },
+			});
+			return res.status(200).send(matriculaAtualizada);
+		} catch (err) {
+			res.status(500).send(err.message);
+		}
+	}
+
+	static async apagaMatricula(req, res) {
+		try {
+			const { estudanteId, matriculaId } = req.params;
+			await database.Matriculas.destroy({ where: { id: +matriculaId } });
+			res.status(200).send(`id ${matriculaId} apagado com sucesso`);
+		} catch (err) {
+			res.status(500).send(err.message);
+		}
+	}
 }
 
 module.exports = PessoaController;
